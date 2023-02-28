@@ -1,11 +1,15 @@
 import styled from "styled-components";
 import {COLOR_GREY, SCREEN} from "../../designConstants";
+import {CnbExchangeResult} from "../../model/cnb/CnbExchangeResult";
+import {useMemo, useState} from "react";
+import * as React from "react";
+import {convertCurrency} from "../../model/conversion/convertCurrency";
 
 const INPUT_HEIGHT = "40px";
 const INPUT_FONT_SIZE = "18px";
 
 interface Props {
-
+	cnbExchangeResult: CnbExchangeResult;
 }
 
 const FormWrapper = styled.div`
@@ -89,7 +93,46 @@ const SelectInput = styled.select`
 	}
 `
 
-export const Form: React.FunctionComponent<Props> = () => {
+const ResultParagraph = styled.p`
+	font-size: 18px;
+	text-align: center;
+`
+
+export const Form: React.FunctionComponent<Props> = (props) => {
+	const [inputValue, setInputValue] = useState<string>("");
+	const [selectValue, setSelectValue] = useState<string | undefined>(props.cnbExchangeResult.results[0]?.code);
+	const [conversionResult, setConversionResult] = useState<number | undefined>(undefined);
+
+	const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setInputValue(e.target.value);
+		setConversionResult(undefined);
+	}
+
+	const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setSelectValue(e.target.value);
+		setConversionResult(undefined);
+	}
+
+	const onSubmit = () => {
+		if (!inputValue) {
+			alert("Error! Amount of czech crowns must be typed :(");
+		}
+
+		const activeCurrency = props.cnbExchangeResult.results
+			.find((result) => result.code === selectValue);
+
+		if (!activeCurrency) {
+			alert("Error! Currency must be chosen :(");
+		}
+
+		const result = convertCurrency(
+			Number(inputValue),
+			{rate: activeCurrency!.rate, amount: activeCurrency!.amount}
+		);
+
+		setConversionResult(Number(result.toFixed(2)))
+	}
+
 	return <FormWrapper>
 		<FormInputSection>
 			<FormColumn>
@@ -97,6 +140,11 @@ export const Form: React.FunctionComponent<Props> = () => {
 				<TextInput
 					type={"number"}
 					placeholder={"Type amount"}
+					value={inputValue}
+					onChange={onInputChange}
+					onKeyPress={(e) => {
+						e.key === "Enter" && onSubmit();
+					}}
 				/>
 				<SelectInput
 					value={"CZK"}
@@ -110,19 +158,37 @@ export const Form: React.FunctionComponent<Props> = () => {
 				<TextInput
 					type={"number"}
 					placeholder={"-"}
+					value={conversionResult ?? ""}
 					disabled
 				/>
-				<SelectInput>
-					<option>EUR</option>
-					<option>PLN</option>
+				<SelectInput
+					value={selectValue}
+					onChange={onSelectChange}
+				>
+					{props.cnbExchangeResult.results.map((result) => {
+						return <option
+							key={result.code}
+							value={result.code}
+						>
+							{result.code}
+						</option>
+					})}
 				</SelectInput>
 			</FormColumn>
 		</FormInputSection>
 
 		<SubmitSection>
-			<SubmitButton>
+			<SubmitButton onClick={onSubmit}>
 				Convert
 			</SubmitButton>
 		</SubmitSection>
+
+		<ResultParagraph>
+			{conversionResult
+				? <>{inputValue} Kč is <strong>{conversionResult} {selectValue}</strong></>
+				: <>–</>
+			}
+		</ResultParagraph>
+
 	</FormWrapper>
 }
