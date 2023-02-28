@@ -1,5 +1,6 @@
 export const COLOR_GREY = "#8b8b8b";
 export const COLOR_MINESHAFT = "#2b2b2b";
+export const COLOR_ALTO = "#e0e0e0";
 
 export const SCREEN = {
 	minS: "(min-width: 480px)",
