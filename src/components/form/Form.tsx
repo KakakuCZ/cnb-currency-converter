@@ -16,13 +16,13 @@ const FormWrapper = styled.div`
 	border: 1px solid ${COLOR_GREY};
 	padding: 40px 24px;
 	
-	@media ${SCREEN.minL} {
+	@media ${SCREEN.minM} {
 		padding: 40px 56px;
 	}
 `
 
 const FormInputSection = styled.div`	
-	@media ${SCREEN.minL} {
+	@media ${SCREEN.minM} {
 		display: flex;
 		justify-content: space-between;
 	}
@@ -31,7 +31,7 @@ const FormInputSection = styled.div`
 const FormColumn = styled.div`
 	width: 100%;
 
-	@media ${SCREEN.minL} {
+	@media ${SCREEN.minM} {
 		width: 40%;
 	}
 `
@@ -43,7 +43,7 @@ const SubmitSection = styled.div`
 const Heading3 = styled.h3`
 	margin: 8px 0 16px 0;
 	
-	@media ${SCREEN.minL} {
+	@media ${SCREEN.minM} {
 		margin: 0 0 8px 0;
 	}
 `
@@ -88,7 +88,7 @@ const SelectInput = styled.select`
 	height: ${INPUT_HEIGHT};
 	font-size: ${INPUT_FONT_SIZE};
 	
-	@media ${SCREEN.minL} {
+	@media ${SCREEN.minM} {
 		margin-bottom: 4px;
 	}
 `

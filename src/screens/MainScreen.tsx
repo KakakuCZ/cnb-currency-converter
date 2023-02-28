@@ -16,14 +16,14 @@ const FormWrapper = styled.div`
 	width: 100%;
 	border-radius: 20px;
 	
-	@media ${SCREEN.minL} {
+	@media ${SCREEN.minM} {
 		margin: 0 auto;
 		width: 500px;
 	}
 `
 
 const CurrencyTableWrapper = styled.div`
-	@media ${SCREEN.minL} {
+	@media ${SCREEN.minM} {
 		margin: 40px auto 0 auto;
 		width: 500px;
 	}
