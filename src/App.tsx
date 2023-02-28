@@ -1,9 +1,10 @@
 import React from 'react';
+import {MainScreen} from "./screens/MainScreen";
 
 function App() {
   return (
     <div>
-      Hello world
+        <MainScreen />
     </div>
   );
 }
