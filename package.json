@@ -1,5 +1,6 @@
 {
-  "name": "my-app",
+  "name": "cnb-currency-converter",
+  "author": "Michael Kufner",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
